@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CinemaScope - Film & Art Reviews</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #f0f0f0;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 80%, rgba(255, 0, 92, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 90% 20%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(120, 0, 200, 0.15) 0%, transparent 70%),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="2"/></svg>');
+            background-size: 100px 100px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Contact Bar */
+        .contact-bar {
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 12px 0;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .contact-item a {
+            color: inherit;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contact-item i {
+            color: #ff4d94;
+            font-size: 1.1rem;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(20, 20, 30, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 50px 40px;
+            margin: 30px 0;
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.05)"/></svg>');
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #ff0051, #ff7c00, #ffd000, #00ff95, #00d5ff);
+            animation: gradientShift 6s ease-in-out infinite;
+            background-size: 300% 300%;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            background: linear-gradient(135deg, #ff4d94, #ffb74d, #4dabf7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .header h1 i {
+            margin-right: 15px;
+            font-size: 0.9em;
+            vertical-align: middle;
+        }
+
+        .header .subtitle {
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            color: #d1d1d1;
+            font-weight: 400;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 20px;
+            line-height: 1.7;
+        }
+
+        /* Loading animation */
+        .loading {
+            text-align: center;
+            padding: 80px 20px;
+            color: white;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            margin: 30px auto;
+            position: relative;
+        }
+
+        .spinner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 5px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            border-top: 5px solid #ff4d94;
+            animation: spin 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading p {
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        /* Articles */
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 35px;
+            margin-bottom: 40px;
+        }
+
+        .article-card {
+            background: rgba(30, 30, 40, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .article-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 
+                0 40px 80px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+        }
+
+        .article-image-container {
+            overflow: hidden;
+            height: 240px;
+            position: relative;
+            border-radius: 24px 24px 0 0;
+        }
+
+        .article-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .article-card:hover .article-image {
+            transform: scale(1.1);
+        }
+
+        .article-content {
+            padding: 30px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 0.85rem;
+            color: #a0aec0;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .article-date,
+        .article-author {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 77, 148, 0.15);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .article-date i,
+        .article-author i {
+            color: #ff4d94;
+        }
+
+        .article-title {
+            font-size: 1.5rem;
+            color: #ffffff;
+            margin-bottom: 15px;
+            font-weight: 700;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .article-excerpt {
+            color: #cbd5e0;
+            margin-bottom: 25px;
+            line-height: 1.7;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        .rating {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+
+        .rating i {
+            color: #ffd000;
+        }
+
+        .article-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 2px solid rgba(74, 85, 104, 0.3);
+            gap: 15px;
+        }
+
+        .read-more {
+            background: linear-gradient(135deg, #ff4d94, #4dabf7);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(255, 77, 148, 0.3);
+        }
+
+        .read-more::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.7s;
+        }
+
+        .read-more:hover::before {
+            left: 100%;
+        }
+
+        .read-more:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(255, 77, 148, 0.4);
+        }
+
+        .comment-count {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #a0aec0;
+            font-size: 0.85rem;
+            font-weight: 500;
+            background: rgba(160, 174, 192, 0.15);
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        .comment-count i {
+            color: #4dabf7;
+        }
+
+        /* Social Sharing */
+        .social-sharing {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .social-btn.facebook { background: #3b5998; }
+        .social-btn.twitter { background: #1da1f2; }
+        .social-btn.linkedin { background: #0077b5; }
+        .social-btn.whatsapp { background: #25d366; }
+
+        /* Comments Section */
+        .comments-section {
+            background: rgba(30, 30, 40, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 40px;
+            margin-top: 40px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .comments-title {
+            font-size: 1.8rem;
+            color: #ffffff;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .comment-form {
+            background: linear-gradient(135deg, rgba(40, 40, 55, 0.9), rgba(30, 30, 45, 0.9));
+            padding: 35px;
+            border-radius: 20px;
+            margin-bottom: 35px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid rgba(74, 85, 104, 0.3);
+            border-radius: 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            background: rgba(20, 20, 30, 0.8);
+            color: #f0f0f0;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #ff4d94;
+            box-shadow: 0 0 0 3px rgba(255, 77, 148, 0.2);
+            background: rgba(25, 25, 40, 0.9);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .submit-comment {
+            background: linear-gradient(135deg, #ff4d94, #4dabf7);
+            color: white;
+            padding: 16px 40px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(255, 77, 148, 0.3);
+        }
+
+        .submit-comment::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.7s;
+        }
+
+        .submit-comment:hover::before {
+            left: 100%;
+        }
+
+        .submit-comment:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(255, 77, 148, 0.4);
+        }
+
+        .comment-item {
+            background: rgba(40, 40, 55, 0.85);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-left: 4px solid #ff4d94;
+            transition: all 0.3s ease;
+        }
+
+        .comment-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            background: rgba(45, 45, 60, 0.95);
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .comment-author {
+            font-weight: 700;
+            color: #ffffff;
+            font-size: 1.1rem;
+        }
+
+        .comment-date {
+            color: #a0aec0;
+            font-size: 0.9rem;
+            background: rgba(160, 174, 192, 0.15);
+            padding: 6px 14px;
+            border-radius: 20px;
+        }
+
+        .comment-text {
+            color: #cbd5e0;
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            margin: 3% auto;
+            padding: 0;
+            border-radius: 30px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalSlide 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        @keyframes modalSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header {
+            padding: 40px;
+            border-bottom: 2px solid rgba(74, 85, 104, 0.3);
+            position: relative;
+            background: linear-gradient(135deg, rgba(30, 30, 45, 0.9), rgba(25, 25, 40, 0.9));
+        }
+
+        .close {
+            color: #a0aec0;
+            float: right;
+            font-size: 36px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(30, 30, 45, 0.8);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .close:hover {
+            background: rgba(255, 77, 148, 0.2);
+            color: #ff4d94;
+            transform: scale(1.1);
+        }
+
+        .modal-body {
+            padding: 40px;
+        }
+
+        .full-article-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .full-article-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            color: #ffffff;
+            margin-bottom: 25px;
+            line-height: 1.3;
+            font-weight: 800;
+        }
+
+        .full-article-content {
+            color: #e2e8f0;
+            line-height: 1.9;
+            font-size: 1.15rem;
+            margin-bottom: 40px;
+        }
+
+        .full-article-content p {
+            margin-bottom: 25px;
+        }
+
+        /* Social Sharing in Modal */
+        .modal-social-sharing {
+            display: flex;
+            gap: 15px;
+            margin: 30px 0;
+            justify-content: center;
+        }
+
+        .modal-social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-social-btn:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 40px 0 20px;
+            flex-wrap: wrap;
+        }
+
+        .page-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            color: #cbd5e0;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .page-btn.active {
+            background: linear-gradient(135deg, #ff4d94, #4dabf7);
+            color: white;
+            border: none;
+            transform: scale(1.1);
+            box-shadow: 0 6px 15px rgba(255, 77, 148, 0.3);
+        }
+
+        .page-btn:not(.active):hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .page-btn.next-btn {
+            width: auto;
+            padding: 0 25px;
+            border-radius: 30px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #a0aec0;
+            font-size: 0.9rem;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer p {
+            margin-bottom: 10px;
+        }
+
+        .copyright {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 992px) {
+            .contact-info {
+                gap: 15px;
+            }
+            
+            .contact-item {
+                padding: 8px 14px;
+                font-size: 0.85rem;
+            }
+            
+            .header {
+                padding: 40px 30px;
+            }
+            
+            .articles-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 25px;
+            }
+            
+            .article-image-container {
+                height: 220px;
+            }
+            
+            .article-content {
+                padding: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .contact-info {
+                gap: 10px;
+                font-size: 0.8rem;
+            }
+
+            .contact-item {
+                padding: 7px 12px;
+                border-radius: 25px;
+            }
+
+            .header {
+                padding: 30px 20px;
+                margin: 20px 0;
+                border-radius: 20px;
+            }
+
+            .articles-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .article-card {
+                border-radius: 20px;
+            }
+
+            .article-content {
+                padding: 25px;
+            }
+
+            .article-title {
+                font-size: 1.4rem;
+            }
+
+            .article-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .article-footer {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+
+            .read-more {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 4% auto;
+                border-radius: 25px;
+            }
+
+            .modal-header,
+            .modal-body {
+                padding: 30px;
+            }
+
+            .comments-section {
+                padding: 30px;
+            }
+
+            .comment-form {
+                padding: 30px;
+            }
+
+            .comment-item {
+                padding: 25px;
+            }
+
+            .comment-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .social-sharing {
+                justify-content: center;
+                margin-top: 20px;
+            }
+
+            .pagination {
+                gap: 10px;
+            }
+
+            .page-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contact-bar {
+                padding: 10px 0;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .header {
+                padding: 25px 15px;
+                border-radius: 16px;
+            }
+
+            .article-content {
+                padding: 20px;
+            }
+
+            .modal-header,
+            .modal-body {
+                padding: 25px 20px;
+            }
+
+            .comments-section {
+                padding: 25px 20px;
+                border-radius: 20px;
+            }
+
+            .comment-form {
+                padding: 25px 20px;
+                border-radius: 15px;
+            }
+            
+            .comment-item {
+                padding: 20px;
+            }
+            
+            .modal-social-sharing {
+                flex-wrap: wrap;
+            }
+            
+            .page-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9rem;
+            }
+            
+            .page-btn.next-btn {
+                padding: 0 15px;
+            }
+        }
+
+        /* Success/Error Messages */
+        .message {
+            padding: 18px 24px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.success {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            color: #047857;
+            border: 1px solid #10b981;
+        }
+
+        .message.error {
+            background: linear-gradient(135deg, #fef2f2, #fecaca);
+            color: #dc2626;
+            border: 1px solid #ef4444;
+        }
+
+        /* Scroll animations */
+        .article-card {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .article-card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .article-card:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        .article-card:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* No articles state */
+        .no-articles {
+            text-align: center;
+            color: white;
+            padding: 60px 20px;
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Contact Bar -->
+    <div class="contact-bar">
+        <div class="contact-info">
+            <div class="contact-item">
+                <i class="fab fa-instagram"></i>
+                <a href="https://www.instagram.com/sankarambukwella" target="_blank">@CinemaScopeReviews</a>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <a href="mailto:rsanka.rambukwella@gmail.com">rsanka.rambukwella@gmail.com</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-film"></i> CinemaScope</h1>
+            <p class="subtitle">Expert Film & Art Reviews - Where cinematic excellence meets thoughtful critique</p>
+        </div>
+
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Loading Film Reviews...</p>
+        </div>
+
+        <div id="articles-container" class="articles-grid" style="display: none;">
+            <!-- Articles will be loaded here -->
+        </div>
+        
+        <!-- Pagination -->
+        <div class="pagination">
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <button class="page-btn next-btn">Next <i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <!-- Article Modal -->
+    <div id="articleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <div class="modal-social-sharing" id="modal-social">
+                    <!-- Social sharing buttons will be added here -->
+                </div>
+            </div>
+            <div class="modal-body">
+                <div id="modal-article-content">
+                    <!-- Full article content will be loaded here -->
+                </div>
+                <div class="comments-section">
+                    <h3 class="comments-title">
+                        <i class="fas fa-comments"></i>
+                        Comments (<span id="comments-count">0</span>)
+                    </h3>
+                    
+                    <div class="comment-form">
+                        <div id="comment-message"></div>
+                        <form id="commentForm">
+                            <input type="hidden" id="articleId" name="articleId">
+                            <div class="form-group">
+                                <label for="commenterName">Name *</label>
+                                <input type="text" id="commenterName" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="commenterEmail">Email *</label>
+                                <input type="email" id="commenterEmail" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="commentText">Comment *</label>
+                                <textarea id="commentText" name="comment" required placeholder="Share your thoughts..."></textarea>
+                            </div>
+                            <button type="submit" class="submit-comment">
+                                <i class="fas fa-paper-plane"></i> Post Comment
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <div id="comments-list">
+                        <!-- Comments will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Follow us for the latest film and art reviews</p>
+        <div class="social-sharing" style="justify-content: center; margin: 15px 0;">
+            <a href="https://www.facebook.com/sanka.rabukwella" class="social-btn facebook">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="social-btn twitter">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.instagram.com/sankarambukwella" class="social-btn instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="social-btn youtube">
+                <i class="fab fa-youtube"></i>
+            </a>
+        </div>
+        <p class="copyright">© Sanka Rambukwella 2025. All rights reserved.</p>
+    </div>
+
+    <script>
+        // Replace with your actual Google Apps Script Web App URL
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyjukYXJo-jaoE_9LSWgKFFYko4Gl7tdLoJiI6k1k1KJqbrVXOjlt74CdkBqPNvV_nW/exec';
+
+        let currentArticleId = null;
+        let currentArticleData = null;
+
+        // Load articles on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadArticles();
+            setupModalEvents();
+        });
+
+        async function loadArticles() {
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=getArticles`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayArticles(data.articles);
+                } else {
+                    showError('Failed to load articles: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Error loading articles:', error);
+                showError('Failed to load articles. Please try again later.');
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('articles-container').style.display = 'grid';
+            }
+        }
+
+        function displayArticles(articles) {
+            const container = document.getElementById('articles-container');
+            
+            if (!articles || articles.length === 0) {
+                container.innerHTML = '<div class="no-articles">No reviews found. Please check back later.</div>';
+                return;
+            }
+
+            container.innerHTML = articles.map(article => `
+                <div class="article-card">
+                    <div class="article-image-container">
+                        ${article.image ? `<img src="${article.image}" alt="${article.title}" class="article-image">` : 
+                        '<div style="background: linear-gradient(135deg, #ff4d94, #4dabf7); height: 100%; display: flex; align-items: center; justify-content: center;"><i class="fas fa-film" style="font-size: 3rem; color: white;"></i></div>'}
+                    </div>
+                    <div class="article-content">
+                        <div class="article-meta">
+                            <span class="article-date">
+                                <i class="fas fa-calendar-alt"></i>
+                                ${formatDate(article.date)}
+                            </span>
+                            <span class="article-author">
+                                <i class="fas fa-user"></i>
+                                ${article.author || 'Film Critic'}
+                            </span>
+                        </div>
+                        <div class="rating">
+                            ${generateStarRating(article.rating || 4)}
+                        </div>
+                        <h2 class="article-title">${article.title}</h2>
+                        <p class="article-excerpt">${article.excerpt || article.content.substring(0, 200) + '...'}</p>
+                        <div class="article-footer">
+                            <button class="read-more" onclick="openArticle('${article.id}')">
+                                <i class="fas fa-ticket-alt"></i> Read Review
+                            </button>
+                            <span class="comment-count">
+                                <i class="fas fa-comments"></i>
+                                ${article.commentCount || 0} Comments
+                            </span>
+                        </div>
+                        <div class="social-sharing">
+                            <a href="#" class="social-btn facebook" onclick="shareArticle('${article.id}', 'facebook', event)">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="social-btn twitter" onclick="shareArticle('${article.id}', 'twitter', event)">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="social-btn linkedin" onclick="shareArticle('${article.id}', 'linkedin', event)">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="social-btn whatsapp" onclick="shareArticle('${article.id}', 'whatsapp', event)">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function generateStarRating(rating) {
+            let stars = '';
+            const fullStars = Math.floor(rating);
+            const halfStar = rating % 1 >= 0.5;
+            
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star"></i>';
+            }
+            
+            if (halfStar) {
+                stars += '<i class="fas fa-star-half-alt"></i>';
+            }
+            
+            const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star"></i>';
+            }
+            
+            return stars;
+        }
+
+        async function openArticle(articleId) {
+            currentArticleId = articleId;
+            
+            try {
+                // Load article details
+                const articleResponse = await fetch(`${SCRIPT_URL}?action=getArticle&id=${articleId}`);
+                const articleData = await articleResponse.json();
+                
+                if (articleData.success) {
+                    currentArticleData = articleData.article;
+                    displayFullArticle(articleData.article);
+                    await loadComments(articleId);
+                    document.getElementById('articleModal').style.display = 'block';
+                    document.getElementById('articleId').value = articleId;
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    showError('Failed to load article: ' + articleData.error);
+                }
+            } catch (error) {
+                console.error('Error loading article:', error);
+                showError('Failed to load article. Please try again.');
+            }
+        }
+
+        function displayFullArticle(article) {
+            const modalContent = document.getElementById('modal-article-content');
+            modalContent.innerHTML = `
+                ${article.image ? `<img src="${article.image}" alt="${article.title}" class="full-article-image">` : 
+                '<div style="background: linear-gradient(135deg, #ff4d94, #4dabf7); height: 300px; display: flex; align-items: center; justify-content: center; border-radius: 20px; margin-bottom: 30px;"><i class="fas fa-film" style="font-size: 4rem; color: white;"></i></div>'}
+                <h1 class="full-article-title">${article.title}</h1>
+                <div class="article-meta">
+                    <span class="article-date">
+                        <i class="fas fa-calendar-alt"></i>
+                        ${formatDate(article.date)}
+                    </span>
+                    <span class="article-author">
+                        <i class="fas fa-user"></i>
+                        ${article.author || 'Film Critic'}
+                    </span>
+                </div>
+                <div class="rating" style="margin-bottom: 20px;">
+                    ${generateStarRating(article.rating || 4)}
+                </div>
+                <div class="full-article-content">${article.content.replace(/\n/g, '<br>')}</div>
+            `;
+            
+            // Create social sharing buttons for modal
+            const modalSocial = document.getElementById('modal-social');
+            modalSocial.innerHTML = `
+                <a href="#" class="modal-social-btn facebook" onclick="shareArticle('${article.id}', 'facebook', event)">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="modal-social-btn twitter" onclick="shareArticle('${article.id}', 'twitter', event)">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="modal-social-btn linkedin" onclick="shareArticle('${article.id}', 'linkedin', event)">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="#" class="modal-social-btn whatsapp" onclick="shareArticle('${article.id}', 'whatsapp', event)">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            `;
+        }
+
+        async function loadComments(articleId) {
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=getComments&articleId=${articleId}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayComments(data.comments);
+                    document.getElementById('comments-count').textContent = data.comments.length;
+                } else {
+                    console.error('Failed to load comments:', data.error);
+                }
+            } catch (error) {
+                console.error('Error loading comments:', error);
+            }
+        }
+
+        function displayComments(comments) {
+            const commentsList = document.getElementById('comments-list');
+            
+            if (!comments || comments.length === 0) {
+                commentsList.innerHTML = '<p style="text-align: center; color: #a0aec0; padding: 20px; font-size: 1.1rem;">No comments yet. Be the first to share your thoughts!</p>';
+                return;
+            }
+
+            commentsList.innerHTML = comments.map(comment => `
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-author">${comment.name}</span>
+                        <span class="comment-date">${formatDate(comment.date)}</span>
+                    </div>
+                    <div class="comment-text">${comment.comment.replace(/\n/g, '<br>')}</div>
+                </div>
+            `).join('');
+        }
+
+        function setupModalEvents() {
+            const modal = document.getElementById('articleModal');
+            const closeBtn = document.querySelector('.close');
+            
+            closeBtn.onclick = function() {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            };
+            
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            };
+
+            // Comment form submission
+            document.getElementById('commentForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                await submitComment();
+            });
+        }
+
+        async function submitComment() {
+            const form = document.getElementById('commentForm');
+            const formData = new FormData(form);
+            const submitBtn = form.querySelector('.submit-comment');
+            const messageDiv = document.getElementById('comment-message');
+            
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Posting...';
+            
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showMessage('Comment posted successfully!', 'success');
+                    form.reset();
+                    form.querySelector('input[name="articleId"]').value = currentArticleId; // Restore article ID
+                    await loadComments(currentArticleId);
+                } else {
+                    showMessage('Failed to post comment: ' + data.error, 'error');
+                }
+            } catch (error) {
+                console.error('Error submitting comment:', error);
+                showMessage('Failed to post comment. Please try again.', 'error');
+            } finally {
+                // Re-enable submit button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Post Comment';
+            }
+        }
+
+        function showMessage(message, type) {
+            const messageDiv = document.getElementById('comment-message');
+            const icon = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-triangle';
+            messageDiv.innerHTML = `<div class="message ${type}"><i class="${icon}"></i>${message}</div>`;
+            setTimeout(() => {
+                messageDiv.innerHTML = '';
+            }, 5000);
+        }
+
+        function showError(message) {
+            const container = document.getElementById('articles-container');
+            container.innerHTML = `<div style="text-align: center; color: white; padding: 50px;">
+                <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                <h2>Error</h2>
+                <p>${message}</p>
+                <button onclick="location.reload()" style="margin-top: 20px; padding: 12px 25px; background: linear-gradient(135deg, #ff4d94, #4dabf7); color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: 600;">Retry</button>
+            </div>`;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+        
+        // Social media sharing function
+        function shareArticle(articleId, platform, event) {
+            event.preventDefault();
+            
+            if (!currentArticleData && articleId) {
+                // Try to get article data if not already loaded
+                const articleCard = document.querySelector(`.article-card [onclick*="${articleId}"]`).closest('.article-card');
+                if (articleCard) {
+                    const title = articleCard.querySelector('.article-title').textContent;
+                    const excerpt = articleCard.querySelector('.article-excerpt').textContent;
+                    const url = window.location.href.split('?')[0] + '?article=' + articleId;
+                    
+                    shareOnPlatform(platform, title, excerpt, url);
+                }
+                return;
+            }
+            
+            const title = currentArticleData.title;
+            const content = currentArticleData.excerpt || currentArticleData.content.substring(0, 200);
+            const url = window.location.href.split('?')[0] + '?article=' + articleId;
+            
+            shareOnPlatform(platform, title, content, url);
+        }
+        
+        function shareOnPlatform(platform, title, text, url) {
+            let shareUrl = '';
+            
+            switch (platform) {
+                case 'facebook':
+                    shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+                    break;
+                case 'twitter':
+                    shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`;
+                    break;
+                case 'linkedin':
+                    shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(text)}`;
+                    break;
+                case 'whatsapp':
+                    shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(title + ' - ' + url)}`;
+                    break;
+                default:
+                    return;
+            }
+            
+            window.open(shareUrl, '_blank', 'width=600,height=400');
+        }
+    </script>
+</body>
+</html>
